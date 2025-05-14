@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora's Tea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cup-width: 35vw;
+            --tea-color: #d2916d;
+            --tea-dark: #a86e4a;
+            --bg-color: #beb986;
+            --text-color: #4a4a4a;
+            --accent-color: #6b4e31;
+            --light-accent: #f5e6b3;
+        }
+
+        @media (min-width: 600px) {
+            :root {
+                --cup-width: 140px;
+            }
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #f5e6b3, var(--bg-color));
+            margin: 0;
+            font-family: 'Comic Neue', cursive;
+            color: var(--text-color);
+            position: relative;
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 8vw;
+            font-weight: 700;
+            margin: 5vh 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            color: var(--accent-color);
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @media (min-width: 600px) {
+            .title {
+                font-size: 3rem;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .cup-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            margin: 2vh 0;
+            gap: 2vh;
+        }
+
+        .text-top, .text-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
+            margin: 1vh 0;
+        }
+
+        @media (min-width: 600px) {
+            .text-top, .text-bottom {
+                flex-direction: row;
+                gap: 20px;
+                margin: 1.5vh 0;
+            }
+        }
+
+        .the-text {
+            font-family: 'Comic Neue', cursive;
+            font-size: 4vw;
+            color: var(--accent-color);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            animation: bounce 2s infinite ease-in-out;
+            pointer-events: none;
+            text-align: center;
+            margin: 5px 10px;
+        }
+
+        @media (min-width: 600px) {
+            .the-text {
+                font-size: 1.4rem;
+                margin: 5px 15px;
+            }
+        }
+
+        .cup-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin: 3vh 0;
+        }
+
+        @media (max-width: 600px) {
+            .cup-container {
+                gap: 1.5vh;
+            }
+        }
+
+        .plate {
+            width: 55vw;
+            height: 7.5vw;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+            animation: plate-wobble 6s infinite ease-in-out;
+        }
+
+        @media (min-width: 600px) {
+            .plate {
+                width: 220px;
+                height: 30px;
+            }
+        }
+
+        @keyframes plate-wobble {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(2deg); }
+        }
+
+        .plate:after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+        }
+
+        .cup {
+            width: var(--cup-width);
+            height: 40vw;
+            background: white;
+            border-radius: 0 0 17.5vw 17.5vw;
+            position: relative;
+            margin-top: -5vw;
+            z-index: 2;
+            box-shadow: 0 0 0 6px white, 0 0 0 8px #ddd, inset 0 5px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+            animation: cup-tilt 8s infinite ease-in-out;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        @media (min-width: 600px) {
+            .cup {
+                height: 160px;
+                border-radius: 0 0 70px 70px;
+                margin-top: -20px;
+            }
+        }
+
+        .cup:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 6px white, 0 0 0 8px #ddd, 0 0 20px rgba(255, 165, 0, 0.3), inset 0 5px 10px rgba(0,0,0,0.05);
+        }
+
+        .cup.shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes cup-tilt {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .cup:before {
+            content: '';
+            position: absolute;
+            top: -5vw;
+            left: 0;
+            width: 100%;
+            height: 10vw;
+            border-radius: 50%;
+            background: white;
+            border: 6px solid white;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 600px) {
+            .cup:before {
+                top: -20px;
+                height: 40px;
+            }
+        }
+
+        .handle {
+            position: absolute;
+            top: 10vw;
+            right: -12.5vw;
+            width: 10vw;
+            height: 20vw;
+            border: 5px solid white;
+            border-left: none;
+            border-radius: 0 10vw 10vw 0;
+            background: transparent;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        @media (min-width: 600px) {
+            .handle {
+                top: 40px;
+                right: -50px;
+                width: 40px;
+                height: 80px;
+                border-radius: 0 40px 40px 0;
+            }
+        }
+
+        .tea {
+            position: absolute;
+            top: 5vw;
+            left: 0;
+            width: 100%;
+            height: 30vw;
+            background: linear-gradient(to bottom, var(--tea-color), var(--tea-dark));
+            border-radius: 0 0 17.5vw 17.5vw;
+            overflow: hidden;
+            animation: tea-glow 5s infinite ease-in-out;
+            transition: height 0.5s, background 0.5s;
+            z-index: 0;
+        }
+
+        @media (min-width: 600px) {
+            .tea {
+                top: 20px;
+                height: 120px;
+                border-radius: 0 0 70px 70px;
+            }
+        }
+
+        .tea.sip-1 {
+            height: 20vw;
+        }
+
+        .tea.sip-2 {
+            height: 10vw;
+        }
+
+        .tea.sip-3 {
+            height: 5vw;
+        }
+
+        @media (min-width: 600px) {
+            .tea.sip-1 {
+                height: 80px;
+            }
+            .tea.sip-2 {
+                height: 40px;
+            }
+            .tea.sip-3 {
+                height: 20px;
+            }
+        }
+
+        @keyframes tea-glow {
+            0%, 100% { background: linear-gradient(to bottom, var(--tea-color), var(--tea-dark)); }
+            50% { background: linear-gradient(to bottom, #e2a47e, #b57e5a); }
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            animation: bubble-rise 3s infinite ease-in;
+        }
+
+        @keyframes bubble-rise {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-25vw) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @media (min-width: 600px) {
+            @keyframes bubble-rise {
+                0% {
+                    transform: translateY(0) scale(0.5);
+                    opacity: 0;
+                }
+                20% {
+                    opacity: 0.7;
+                }
+                100% {
+                    transform: translateY(-100px) scale(1.5);
+                    opacity: 0;
+                }
+            }
+        }
+
+        .steam {
+            position: absolute;
+            top: -7.5vw;
+            width: 100%;
+            height: 20vw;
+            display: flex;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        @media (min-width: 600px) {
+            .steam {
+                top: -30px;
+                height: 80px;
+            }
+        }
+
+        .steam span {
+            display: block;
+            position: relative;
+            width: 2vw;
+            height: 15vw;
+            background: rgba(255,255,255,0.8);
+            margin: 0 2.5vw;
+            border-radius: 50%;
+            animation: steam-rise 4s infinite ease-out;
+            opacity: 0;
+            filter: blur(6px);
+            transform-origin: bottom center;
+        }
+
+        @media (min-width: 600px) {
+            .steam span {
+                width: 8px;
+                height: 60px;
+                margin: 0 10px;
+            }
+        }
+
+        .steam span:nth-child(1) { animation-delay: 0.5s; height: 12.5vw; }
+        .steam span:nth-child(2) { animation-delay: 1s; height: 17.5vw; }
+        .steam span:nth-child(3) { animation-delay: 1.5s; height: 10vw; }
+        .steam span:nth-child(4) { animation-delay: 2s; height: 15vw; }
+
+        @media (min-width: 600px) {
+            .steam span:nth-child(1) { height: 50px; }
+            .steam span:nth-child(2) { height: 70px; }
+            .steam span:nth-child(3) { height: 40px; }
+            .steam span:nth-child(4) { height: 60px; }
+        }
+
+        @keyframes steam-rise {
+            0% {
+                transform: translateY(0) scale(0.3);
+                opacity: 0;
+            }
+            30% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-17.5vw) scale(1.6);
+                opacity: 0;
+            }
+        }
+
+        @media (min-width: 600px) {
+            @keyframes steam-rise {
+                0% {
+                    transform: translateY(0) scale(0.3);
+                    opacity: 0;
+                }
+                30% {
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translateY(-70px) scale(1.6);
+                    opacity: 0;
+                }
+            }
+        }
+
+        .controls {
+            display: flex;
+            gap: 3vw;
+            margin-top: 5vh;
+        }
+
+        @media (min-width: 600px) {
+            .controls {
+                gap: 15px;
+                margin-top: 30px;
+            }
+        }
+
+        .btn {
+            padding: 3vw 6vw;
+            font-size: 3.5vw;
+            font-family: 'Comic Neue', cursive;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @media (min-width: 600px) {
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            background: #8b6f47;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            animation: none;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .tea-info {
+            width: 90%;
+            max-width: 800px;
+            margin: 5vh 0;
+            animation: fade-in 1.5s ease-out 0.5s both;
+        }
+
+        .tea-info h2 {
+            color: var(--accent-color);
+            font-family: 'Comic Neue', cursive;
+            margin-top: 0;
+            border-bottom: 2px dashed var(--light-accent);
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .tea-info p {
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .tea-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .tea-type {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-family: 'Comic Neue', cursive;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .tea-type:hover {
+            background: white;
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        .tea-quote {
+            font-style: italic;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            color: var(--accent-color);
+        }
+
+        .tea-quote:before, .tea-quote:after {
+            content: '"';
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .tea-timer {
+            width: 90%;
+            max-width: 800px;
+            margin: 5vh 0;
+            text-align: center;
+            animation: fade-in 1.5s ease-out 1s both;
+        }
+
+        .timer-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .timer-input {
+            width: 60px;
+            padding: 8px;
+            font-size: 1rem;
+            font-family: 'Comic Neue', cursive;
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .timer-input:focus {
+            outline: none;
+            border-color: #8b6f47;
+            box-shadow: 0 0 5px rgba(139, 111, 71, 0.3);
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            font-family: 'Comic Neue', cursive;
+            color: var(--accent-color);
+            margin: 15px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .timer-btn {
+            margin: 0 10px;
+            padding: 8px 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--accent-color);
+            font-family: 'Comic Neue', cursive;
+            font-size: 0.9rem;
+        }
+
+        /* Tea color variations */
+        .tea-green {
+            background: linear-gradient(to bottom, #a8c66c, #7aa356) !important;
+        }
+
+        .tea-herbal {
+            background: linear-gradient(to bottom, #d4a5c4, #b57aa5) !important;
+        }
+
+        .tea-black {
+            background: linear-gradient(to bottom, #6b4e31, #4a3520) !important;
+        }
+
+        .tea-oolong {
+            background: linear-gradient(to bottom, #c68b4a, #8f5e32) !important;
+        }
+
+        .tea-white {
+            background: linear-gradient(to bottom, #f3e5ab, #d4c68a) !important;
+        }
+
+        .tea-chai {
+            background: linear-gradient(to bottom, #c19a6b, #8b6f47) !important;
+        }
+
+        .tea-rooibos {
+            background: linear-gradient(to bottom, #d66d6d, #a84a4a) !important;
+        }
+
+        .tea-matcha {
+            background: linear-gradient(to bottom, #72a940, #50772d) !important;
+        }
+
+        .tea-ginger {
+            background: linear-gradient(to bottom, #f4c430, #d4a421) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Have Your Tea!</div>
+    <div class="cup-container">
+        <div class="text-top">
+            <div class="the-text">Did you know</div>
+            <div class="the-text">That you can't send tea virtually?</div>
+        </div>
+        <div class="cup-wrapper">
+            <div class="steam">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="cup" id="cup">
+                <div class="tea" id="tea"></div>
+                <div class="handle"></div>
+            </div>
+            <div class="plate"></div>
+            <div class="controls">
+                <button class="btn" id="sipButton">Sip Tea</button>
+                <button class="btn btn-outline" id="refillButton">Refill</button>
+            </div>
+        </div>
+        <div class="text-bottom">
+            <div class="the-text">Cause News Flash! Yes we can't</div>
+            <div class="the-text">But there are ways</div>
+        </div>
+    </div>
+
+    <div class="tea-info">
+        <h2>Do you have a favorite Tea?</h2>
+        <p>Tea is a cozy hug in a cup. Pick your favorite and enjoy some calm.</p>
+        
+        <h3>Choose one</h3>
+        <div class="tea-types">
+            <div class="tea-type" data-type="ginger">(The beloved) Ginger Tea</div>
+            <div class="tea-type" data-type="black">Black Tea</div>
+            <div class="tea-type" data-type="green">Green Tea</div>
+            <div class="tea-type" data-type="herbal">Herbal Tea</div>
+            <div class="tea-type" data-type="oolong">Oolong Tea</div>
+            <div class="tea-type" data-type="white">White Tea</div>
+            <div class="tea-type" data-type="chai">Chai</div>
+            <div class="tea-type" data-type="rooibos">Rooibos</div>
+            <div class="tea-type" data-type="matcha">Matcha</div>
+        </div>
+
+        <div class="tea-quote">
+            Drink it even if you hate it, by the way
+        </div>
+    </div>
+
+    <div class="tea-timer">
+        <h2>Set your time</h2>
+        <p>Timer, if your nerdy self wants to multitask while having tea</p>
+        <div class="timer-inputs">
+            <input type="number" id="minutes" class="timer-input" placeholder="Min" min="0" max="59" value="3">
+            <span>:</span>
+            <input type="number" id="seconds" class="timer-input" placeholder="Sec" min="0" max="59" value="0">
+        </div>
+        <div class="timer-display" id="timer">03:00</div>
+        <div>
+            <button class="btn timer-btn" id="startTimer">Start</button>
+            <button class="btn btn-outline timer-btn" id="resetTimer">Reset</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        Did ya like it? | <br>Wishing you all the best for your exams | <br>also, why you ignoring me? you little shi | <br>2025 Tea Pals 
+    </div>
+
+    <script>
+        const tea = document.getElementById('tea');
+        const cup = document.getElementById('cup');
+        const sipButton = document.getElementById('sipButton');
+        const refillButton = document.getElementById('refillButton');
+        const teaTypes = document.querySelectorAll('.tea-type');
+        const startTimerBtn = document.getElementById('startTimer');
+        const resetTimerBtn = document.getElementById('resetTimer');
+        const timerDisplay = document.getElementById('timer');
+        const minutesInput = document.getElementById('minutes');
+        const secondsInput = document.getElementById('seconds');
+
+        let sipCount = 0;
+
+        // Add random bubbles
+        function addBubbles() {
+            const existingBubbles = document.querySelectorAll('.bubble');
+            existingBubbles.forEach(bubble => bubble.remove());
+            const cupWidth = parseFloat(getComputedStyle(cup).width);
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                bubble.style.left = `${Math.random() * (cupWidth - 20) + 10}px`;
+                bubble.style.bottom = `${Math.random() * 40 + 10}px`;
+                bubble.style.width = `${Math.random() * 10 + 5}px`;
+                bubble.style.height = bubble.style.width;
+                bubble.style.animationDelay = `${Math.random() * 3}s`;
+                tea.appendChild(bubble);
+            }
+        }
+
+        addBubbles();
+
+        // Sip tea animation
+        sipButton.addEventListener('click', () => {
+            if (sipCount < 3) {
+                sipCount++;
+                tea.classList.remove('sip-1', 'sip-2', 'sip-3');
+                tea.classList.add(`sip-${sipCount}`);
+                cup.classList.add('shake');
+                setTimeout(() => {
+                    cup.classList.remove('shake');
+                }, 500);
+                if (sipCount === 3) {
+                    alert("You've sipped all the tea! Time to refill!");
+                }
+            } else {
+                alert("No more tea to sip! Please refill.");
+            }
+        });
+
+        // Refill tea animation
+        refillButton.addEventListener('click', () => {
+            sipCount = 0;
+            tea.classList.remove('sip-1', 'sip-2', 'sip-3');
+            tea.style.height = '';
+            addBubbles();
+        });
+
+        // Cup shake on click
+        cup.addEventListener('click', () => {
+            cup.classList.add('shake');
+            setTimeout(() => {
+                cup.classList.remove('shake');
+            }, 500);
+        });
+
+        // Change tea type
+        teaTypes.forEach(type => {
+            type.addEventListener('click', () => {
+                tea.classList.remove('tea-green', 'tea-herbal', 'tea-black', 'tea-oolong', 'tea-white', 'tea-chai', 'tea-rooibos', 'tea-matcha', 'tea-ginger');
+                const teaType = type.getAttribute('data-type');
+                tea.classList.add(`tea-${teaType}`);
+                addBubbles();
+                alert(`Sipping some ${type.textContent}!`);
+            });
+        });
+
+        // Custom timer functionality
+        let timerInterval;
+        let timeLeft = 180; // Default 3 minutes in seconds
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function getUserTime() {
+            let minutes = parseInt(minutesInput.value) || 0;
+            let seconds = parseInt(secondsInput.value) || 0;
+            if (minutes < 0 || minutes > 59) minutes = 0;
+            if (seconds < 0 || seconds > 59) seconds = 0;
+            return minutes * 60 + seconds;
+        }
+
+        function setTimerDisplay() {
+            timeLeft = getUserTime();
+            updateTimerDisplay();
+        }
+
+        minutesInput.addEventListener('input', setTimerDisplay);
+        secondsInput.addEventListener('input', setTimerDisplay);
+
+        startTimerBtn.addEventListener('click', () => {
+            if (startTimerBtn.textContent === 'Start') {
+                timeLeft = getUserTime();
+                if (timeLeft <= 0) {
+                    alert('Please set a time!');
+                    return;
+                }
+                startTimerBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerDisplay.textContent = "Timer's Done!";
+                        startTimerBtn.textContent = 'Start';
+                        cup.classList.add('shake');
+                        setTimeout(() => {
+                            cup.classList.remove('shake');
+                        }, 1000);
+                    }
+                }, 1000);
+            } else {
+                startTimerBtn.textContent = 'Start';
+                clearInterval(timerInterval);
+            }
+        });
+
+        resetTimerBtn.addEventListener('click', () => {
+            clearInterval(timerInterval);
+            minutesInput.value = '3';
+            secondsInput.value = '0';
+            setTimerDisplay();
+            startTimerBtn.textContent = 'Start';
+        });
+
+        // Re-add bubbles on window resize
+        window.addEventListener('resize', addBubbles);
+
+        // Initialize timer display
+        setTimerDisplay();
+    </script>
+</body>
+</html>
